@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 
 namespace MiniC {
     class ASTPrinterVisitor : MiniCASTBaseVisitor<int> {
+        private Stack<CExprMultiplication> numMulti = new Stack<CExprMultiplication>();
         private String m_dotFilename;
         private StreamWriter m_dotFile;
         private ASTElement m_root;
@@ -43,6 +45,9 @@ namespace MiniC {
             base.VisitCompileUnit(node);
 
             // Close dotFile
+            //foreach (CExprMultiplication number in numMulti) {
+            //    m_dotFile.WriteLine(number);
+            //}
             m_dotFile.WriteLine("}");
             m_dotFile.Close();
 
@@ -271,7 +276,6 @@ namespace MiniC {
         public override int VisitCExprMultiplication(CExprMultiplication node) {
             //Generate edge with parent
             m_dotFile.WriteLine($"{node.MParent.M_Name}->{node.M_Name};");
-
             //Generate contexts
             ExtractSubgraphs(node, CExprMultiplication.CT_LEFT, CExprMultiplication.msc_contextNames);
             ExtractSubgraphs(node, CExprMultiplication.CT_RIGHT, CExprMultiplication.msc_contextNames);
@@ -297,7 +301,6 @@ namespace MiniC {
         public override int VisitCExprAddition(CExprAddition node) {
             //Generate edge with parent
             m_dotFile.WriteLine($"{node.MParent.M_Name}->{node.M_Name};");
-
             //Generate contexts
             ExtractSubgraphs(node, CExprAddition.CT_LEFT, CExprAddition.msc_contextNames);
             ExtractSubgraphs(node, CExprAddition.CT_RIGHT, CExprAddition.msc_contextNames);

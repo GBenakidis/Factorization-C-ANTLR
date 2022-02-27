@@ -1,4 +1,6 @@
-﻿namespace MiniC {
+﻿using System.Collections.Generic;
+
+namespace MiniC {
     public abstract class ASTBaseVisitor<T> {
         public virtual T Visit(ASTElement node) {
             /* Going to the node it took as the default
@@ -168,4 +170,5 @@
             return default(T);
         }
     }
+
 }

@@ -69,6 +69,8 @@
     <Compile Include="MiniCType.cs" />
     <None Include="bin\Debug\ast.dot" />
     <None Include="bin\Debug\mir.dot" />
+    <None Include="bin\Debug\SOPCommonFactorPrints.dot" />
+    <None Include="bin\Debug\SOPRunnerPrints.dot" />
     <None Include="obj\Debug\MiniCBaseListener.cs" />
     <None Include="obj\Debug\MiniCBaseVisitor.cs" />
     <None Include="obj\Debug\MiniCLexer.cs" />
@@ -77,6 +79,8 @@
     <None Include="obj\Debug\MiniCVisitor.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SOPFVisitor.cs" />
+    <Compile Include="SOPCommonFactor.cs" />
     <Compile Include="STPrinterVisitor.cs" />
   </ItemGroup>
   <ItemGroup>

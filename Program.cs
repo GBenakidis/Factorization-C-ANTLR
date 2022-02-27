@@ -1,6 +1,8 @@
 ﻿using Antlr4.Runtime;
 using Antlr4.Runtime.Tree;
 using System;
+using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace MiniC {
@@ -40,6 +42,46 @@ namespace MiniC {
 
             // MiniCASTBaseVisitor<int> dummyVisitor = new MiniCASTBaseVisitor<int>();
             // dummyVisitor.Visit(astGen.MRoot);
+
+            // ==== Factoring part ===
+
+            SOPFVisitor sopRunner = new SOPFVisitor();
+            // Returning sum of product
+            Stack<CExprAddition> sopNodes = sopRunner.Visit(tree);
+
+            StreamWriter m_dotFile;
+            m_dotFile = new StreamWriter("SOPRunnerPrints.dot");
+            m_dotFile.WriteLine("Sum of products nodes:");
+            foreach (CExprAddition sumNode in sopNodes) {
+                m_dotFile.WriteLine(sumNode.M_Name);
+            }
+            m_dotFile.Close();
+
+            // For ONE sum of product
+            // SOPCommonFactor <- Sum of Product Common Factor
+            // Returning common factor of previous sum of product if it exists
+            SOPCommonFactor sopCF = new SOPCommonFactor();
+            int cf = 0;
+            foreach(CExprAddition sumNode in sopNodes) {
+                cf = sopCF.Visit(sumNode);
+            }
+            StreamWriter m_dotFile1 = new StreamWriter("SOPCommonFactorPrints.dot");
+            if (cf == 0) { // if no common factor found
+                m_dotFile1.WriteLine("No common factor found!");
+                m_dotFile1.Close();
+            } else { // if common factor found
+                m_dotFile1.WriteLine("Our common factor is " + cf);
+                m_dotFile1.Close();
+            }
+
+            // SOPVariableVisitor
+            // Traversing sop nodes to save variables
+            // Returns stack of variables
+
+            // FGenerator
+            // Creating factored tree
+
+            // ====
 
             ASTPrinterVisitor astPrinter = new ASTPrinterVisitor("ast.dot");
             astPrinter.Visit(astGen.MRoot);
