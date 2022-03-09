@@ -3,7 +3,7 @@
 void main(int argc, char* argv[]){
 	//  ***** Local declarations *****
 	//  ***** Code Body *****
-	2 * a + 2 * b;
+	7 * a + 7 * b;
 	
 }
 

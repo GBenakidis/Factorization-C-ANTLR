@@ -59,6 +59,7 @@
     <Compile Include="CEmmitableCodeContainer.cs" />
     <Compile Include="CNodeType.cs" />
     <Compile Include="CodeContainerConcrete.cs" />
+    <Compile Include="FGenerator.cs" />
     <Compile Include="MiniC.g4.lexer.cs">
       <DependentUpon>MiniC.g4</DependentUpon>
     </Compile>
@@ -69,8 +70,10 @@
     <Compile Include="MiniCType.cs" />
     <None Include="bin\Debug\ast.dot" />
     <None Include="bin\Debug\mir.dot" />
+    <None Include="bin\Debug\sop.dot" />
     <None Include="bin\Debug\SOPCommonFactorPrints.dot" />
     <None Include="bin\Debug\SOPRunnerPrints.dot" />
+    <None Include="bin\Debug\SOPVariablePrints.dot" />
     <None Include="obj\Debug\MiniCBaseListener.cs" />
     <None Include="obj\Debug\MiniCBaseVisitor.cs" />
     <None Include="obj\Debug\MiniCLexer.cs" />
@@ -81,6 +84,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SOPFVisitor.cs" />
     <Compile Include="SOPCommonFactor.cs" />
+    <Compile Include="SOPVariableVisitor.cs" />
     <Compile Include="STPrinterVisitor.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +100,7 @@
     <Content Include="bin\Debug\ast.gif" />
     <Content Include="bin\Debug\input.txt" />
     <Content Include="bin\Debug\mir.gif" />
+    <Content Include="bin\Debug\sop.gif" />
     <Content Include="bin\Debug\tree.gif" />
     <Content Include="Testbenchinput.c" />
   </ItemGroup>

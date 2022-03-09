@@ -45,9 +45,6 @@ namespace MiniC {
             base.VisitCompileUnit(node);
 
             // Close dotFile
-            //foreach (CExprMultiplication number in numMulti) {
-            //    m_dotFile.WriteLine(number);
-            //}
             m_dotFile.WriteLine("}");
             m_dotFile.Close();
 

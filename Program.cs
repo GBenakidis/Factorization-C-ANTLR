@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace MiniC {
     class Program {
@@ -40,15 +41,13 @@ namespace MiniC {
             ASTGenerator astGen = new ASTGenerator();
             astGen.Visit(tree); // Starting from the root node of the abstract syntax tree.
 
-            // MiniCASTBaseVisitor<int> dummyVisitor = new MiniCASTBaseVisitor<int>();
-            // dummyVisitor.Visit(astGen.MRoot);
-
             // ==== Factoring part ===
 
             SOPFVisitor sopRunner = new SOPFVisitor();
             // Returning sum of product
             Stack<CExprAddition> sopNodes = sopRunner.Visit(tree);
 
+            // Sum of products nodes in a file
             StreamWriter m_dotFile;
             m_dotFile = new StreamWriter("SOPRunnerPrints.dot");
             m_dotFile.WriteLine("Sum of products nodes:");
@@ -56,31 +55,52 @@ namespace MiniC {
                 m_dotFile.WriteLine(sumNode.M_Name);
             }
             m_dotFile.Close();
+            // = = = =
 
             // For ONE sum of product
             // SOPCommonFactor <- Sum of Product Common Factor
             // Returning common factor of previous sum of product if it exists
             SOPCommonFactor sopCF = new SOPCommonFactor();
-            int cf = 0;
+            CExprINTEGER cf = null;
             foreach(CExprAddition sumNode in sopNodes) {
                 cf = sopCF.Visit(sumNode);
             }
+            
+            // Common factor in a file
             StreamWriter m_dotFile1 = new StreamWriter("SOPCommonFactorPrints.dot");
-            if (cf == 0) { // if no common factor found
+            if (cf == null) { // if no common factor found
                 m_dotFile1.WriteLine("No common factor found!");
-                m_dotFile1.Close();
             } else { // if common factor found
-                m_dotFile1.WriteLine("Our common factor is " + cf);
-                m_dotFile1.Close();
+                m_dotFile1.WriteLine("Our common factor is " + cf.MName);
             }
+            m_dotFile1.Close();
+
+            // = = = =
 
             // SOPVariableVisitor
             // Traversing sop nodes to save variables
             // Returns stack of variables
+            SOPVariableVisitor svv = new SOPVariableVisitor();
+            Stack<CExprVARIABLE> variableStack = null;
+            foreach (CExprAddition sumNode in sopNodes) {
+                variableStack = svv.Visit(sumNode);
+            }
+
+            // Variables in a file
+            StreamWriter m_dotFile2 = new StreamWriter("SOPVariablePrints.dot");
+            m_dotFile2.WriteLine("Variables:");
+            foreach (CExprVARIABLE variableNode in variableStack) {
+                m_dotFile2.WriteLine(variableNode.MName);
+            }
+            m_dotFile2.Close();
+            // = = = =
 
             // FGenerator
             // Creating factored tree
-
+            if (cf != null) { 
+                FGenerator fg = new FGenerator(sopNodes, cf, variableStack);
+                fg.run();
+            }
             // ====
 
             ASTPrinterVisitor astPrinter = new ASTPrinterVisitor("ast.dot");
